@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+ <!--
+	이 문서의 형식은 configuration(환경설정) 형식임을 알려주는 구문
+  => configuration 이라는 태그가 이 문서 전체를 감싸고 있음
+  .dtd = 유효성을 검사하는 문서 
+  (이 문서에 언급되는 태그들이 configuration 태그 안에 존재해도 되는지 검사)
+  => mybatis-3-config.dtd 라는 파일을 참고하여 유효성 검사를 하겠다는 의미
+ -->
+ 
+<configuration>
+  <!-- settings : mybatis 의 전반적인 설정을 담당하는 태그 -->
+
+  <settings>
+    <!-- jdbcTypeForNull : NULL 
+      만약에 데이터가 전달된게 없다면 테이블에 데이터가 들어갈때 NULL 로 들어가게 됨
+    -->
+
+    <setting name="jdbcTypeForNull" value="NULL"/>
+  </settings>
+  
+  <typeAliases>
+    <!-- typeAlias : 자바의 클래스를 mybatis 에서 사용할 때 별칭을 지정하는 태그
+      type : 자바의 클래스 경로를 입력
+      alias : 별칭을 지정
+      => 실제 해당 클래스가 존재하지 않은 상황에서 미리 별칭 지정하면 ClassNotFound 예외 발생
+    -->
+    <!-- <typeAlias type="com.kh.board.model.vo.*" alias="board"/> -->
+    <typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="member"/>
+  </typeAliases>
+
+
+
+  <!-- environments : mybatis 가 동작할 환경을 설정하는 태그
+    프로젝트 하나당 여러개의 환경을 설정할 수 있음
+    default : 기본 환경을 설정하는 속성으로 여러개의 id 중 어떤 DB를 메인 DB로 사용할지 설정
+    
+  -->
+
+  <environments default="development">
+    <environment id="development">
+
+      <!-- transactionManager : 트랜잭션을 관리하는 객체를 지정하는 태그
+        type : 트랜잭션을 관리하는 객체의 클래스 경로를 입력
+      -->
+      <transactionManager type="JDBC"/>
+      <!--
+         JDBC : 트랜잭션을 개발자인 내가 직접 관리하겠다. 수동 commit
+         MANAGED : 개발자가 트랜잭션에 대해 어떠한 영향도 행사하지 않겠다. 자동 commit
+
+       -->
+      <!-- dataSource : DB 와의 연결을 관리하는 객체를 지정하는 태그
+        type : DB 와의 연결을 관리하는 객체의 클래스 경로를 입력
+        driver : JDBC 드라이버의 클래스 경로를 입력
+        url : DB 연결 정보를 입력
+        username : DB 연결 시 사용자 계정명을 입력
+        password : DB 연결 시 사용자 비밀번호를 입력
+        dataSource는 POOLED 또는 UNPOOLED 라는 두 가지 타입이 존재
+        (Connection Pool 사용여부를 지정)
+        => Connection Poll : Connection 객체를 담아둘 수 있는 영역
+        한번 생성된 Connection 객체를 재사용하여 DB 연결 시간을 단축시키는 기법
+        - POOLED : Connection Pool 을 사용하는 타입
+        - UNPOOLED : Connection Pool 을 사용하지 않는 타입 즉, 매번 새로운 Connection 객체를 생성
+      -->
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="MYBATIS"/>
+        <property name="password" value="MYBATIS"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <!-- 
+      mappers : 실행할 sql 문들을 기록해둔 mapper 파일들을 등록하는 영역
+      => 아직 mapper 파일이 없는 경우 FileNotFoundException 발생
+   -->
+   <mappers>
+   		<mapper resource="/mappers/member-mapper.xml"></mapper>
+  </mappers>
+
+</configuration>
+ 
+
+ 
