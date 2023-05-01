@@ -8,13 +8,15 @@ import com.kh.mybatis.member.model.vo.Member;
 
 public class MemberServiceImpl implements MemberService {
 
+	private MemberDao memberDao = new MemberDao();
+
 	/* 회원가입 */
 	@Override
 	public int insertMember(Member m) {
 
 		// Mybatis 방식
 		SqlSession sqlSession = Template.getSqlSession();
-		int result = new MemberDao().insertMember(sqlSession, m);
+		int result = memberDao.insertMember(sqlSession, m);
 
 		// 3. 트랜잭션 처리
 		if (result > 0) {
@@ -34,8 +36,17 @@ public class MemberServiceImpl implements MemberService {
 	/* 로그인 */
 	@Override
 	public Member loginMember(Member m) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// 1.sql 객체 생성
+		SqlSession sqlSession = Template.getSqlSession();
+		// 2.만들어진 sqlsession으로 결과 받기
+		Member loginUser = memberDao.loginMember(sqlSession, m);
+		// 3.트랜잭션 처리 (select라 x)
+
+		// 4. sql 반환
+		sqlSession.close();
+
+		return loginUser;
 	}
 
 	/* 회원 수정 */

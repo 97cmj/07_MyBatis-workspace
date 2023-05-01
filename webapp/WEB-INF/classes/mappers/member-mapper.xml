@@ -4,47 +4,94 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="memberMapper">
-<!--  
-	namespace : 해당 mapper 파일의 고유한 별칭
-	=> 실행하고자 하는 쿼리문을 찾아갈 때 써야하는 주소지 (중복 X)
- -->
- 
- 	<!--  
- 		* DML 문 (INSERT, UPDATE, DELETE) 일 경우
- 		<insert id="각sql문의 식별자" parameterType="전달받을자바타입(풀클래스명)">
- 			실행하고자 하는 쿼리문 작성
- 		</insert>
- 		 <update></update>
- 		 <delete></delete>
- 		 
- 		 => parameterType 은 완성된 쿼리문이면 (즉, 전달받은 값이 없다면) 생략 가능
- 		 => update, delete 태그도 마찬가지
- 		 => 미완성된 쿼리문의 경우
- 		 pstmt.setXXX(n, xxx); 대신 #{필드명} 으로 표기하여 구멍을 메꿔주는 효과를 줄 수 있다.
- 		 #{필드명} => 전달값.get필드명(); 가 내부적으로 호출되는 꼴, #은 PreparedStatement 를 의미함
- 		 (문자열의 경우 양쪽에 홑따옴표가 붙어서 들어감) 
- 	 -->
- 	 
- 	 <insert id="insertMember" parameterType="member">
- 	 	INSERT INTO MEMBER(USER_NO
- 	 					  ,USER_ID
- 	 					  ,USER_PWD
- 	 					  ,USER_NAME
- 	 					  ,EMAIL
- 	 					  ,BIRTHDAY
- 	 					  ,GENDER
- 	 					  ,PHONE
- 	 					  ,ADDRESS)
- 	 				VALUES(SEQ_UNO.NEXTVAL
- 	 					  ,#{userId}
- 	 					  ,#{userPwd}
- 	 					  ,#{userName}
- 	 					  ,#{email}
- 	 					  ,#{birthday}
- 	 					  ,#{gender}
- 	 					  ,#{phone}
- 	 					  ,#{address})
- 	 </insert>
- 	
- 	
+	<!-- namespace : 해당 mapper 파일의 고유한 별칭 => 실행하고자 하는 쿼리문을 찾아갈 때 써야하는 주소지 (중복 
+		X) -->
+
+	<!-- * DML 문 (INSERT, UPDATE, DELETE) 일 경우 
+		<insert id="각sql문의 식별자" parameterType="전달받을자바타입(풀클래스명)"> 
+		실행하고자 하는 쿼리문 작성 
+		</insert> 
+		<update></update> <delete></delete> 
+		=> parameterType 은 완성된 쿼리문이면 (즉, 전달받은 값이 없다면) 생략 가능 => update, delete 태그도 마찬가지 
+		=> 미완성된 쿼리문의  경우 pstmt.setXXX(n, xxx); 대신 #{필드명} 으로 표기하여 구멍을 메꿔주는 효과를 줄 수 있다. #{필드명} => 
+		전달값.get필드명(); 가 내부적으로 호출되는 꼴, 
+		#은 PreparedStatement 를 의미함 (문자열의 경우 양쪽에 홑따옴표가 붙어서 들어감) 
+	-->
+		
+	<!-- 
+		resultMap이란 ?
+		마이바티스에 핵심 기능 중 하나
+		ResultSet으로부터 조회된 컬럼값을 하나씩 뽑아서 내가 지정한 VO 객체의 각 필드에 값을 담아주는 역할을 함(매핑)
+		
+		즉, 어떤 코드를 줄여주냐면,
+		if(rset.next()) {
+			rset.getString("컬럼명");
+			...
+		}
+		
+		[ 표현법 ]
+		<resultMap id="식별자" type="조회된결과를담아서반환하고자하는VO객체의타입(풀클래스명) 또는 별칭">
+			<result column="조회결과를뽑고자하는DB컬럼명" property="해당결과를담고자하는VO필드명" />
+			<result column="조회결과를뽑고자하는DB컬럼명" property="해당결과를담고자하는VO필드명" />
+			<result column="조회결과를뽑고자하는DB컬럼명" property="해당결과를담고자하는VO필드명" />
+			<result column="조회결과를뽑고자하는DB컬럼명" property="해당결과를담고자하는VO필드명" />
+			...
+		</resultMap>
+		
+		=> 내부적으로 해당 컬럼값이 resultSet 으로부터 뽑힌 후 그 뽑힌 값이 해당 property 에 작성한 필드에 setter 메소드를 통해 값이 담기게 됨!!
+	 -->
+	 
+	 <resultMap id="memberResultSet" type="member">
+	 	<result column="USER_NO" property="userNo"></result>
+		<result column="USER_ID" property="userId"></result>
+		<result column="USER_PWD" property="userPwd"></result>
+		<result column="USER_NAME" property="userName"></result>
+		<result column="EMAIL" property="email"></result>
+		<result column="BIRTHDAY" property="birthday"></result>
+		<result column="GENDER" property="gender"></result>
+		<result column="PHONE" property="phone"></result>
+		<result column="ADDRESS" property="address"></result>
+		<result column="ENROLL_DATE" property="enrollDate"></result>
+		<result column="MODIFY_DATE" property="modifyDate"></result>
+		<result column="STATUS" property="status"></result>
+	</resultMap>
+
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO MEMBER(USER_NO
+		,USER_ID
+		,USER_PWD
+		,USER_NAME
+		,EMAIL
+		,BIRTHDAY
+		,GENDER
+		,PHONE
+		,ADDRESS)
+		VALUES(SEQ_UNO.NEXTVAL
+		,#{userId}
+		,#{userPwd}
+		,#{userName}
+		,#{email}
+		,#{birthday}
+		,#{gender}
+		,#{phone}
+		,#{address})
+	</insert>
+	
+	
+	<!-- 
+		resultType="조회결과를 반환하고자 하는 자바 타입"
+		DML 문의 경우 어차피 실행 결과가 처리한 행의 갯수 (int) 로 나올거기 때문에
+		resultType 에 대한 속성이 생략된 꼴임!! => 만약 내가 만든 타입으로 쓰려면?
+		resultMap="~~~">
+	
+	 -->
+	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE USER_ID = #{userId}
+		AND USER_PWD = #{userPwd}
+		AND STATUS = 'Y'
+
+	</select>
+
+
 </mapper>
