@@ -1,22 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시판 상세화면</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-<style>
-    td>textarea {
-        resize: none;
-        width : 100%;
-        height : 100%;
-    }
-</style>
-
+<%@ include file="../common/common.jsp" %>
+<link rel="stylesheet" type="text/css" href="../resources/detail.css">
 </head>
 <body>
     
@@ -34,24 +26,25 @@
         </tr>
         <tr>
             <td>제목</td>
-            <td>실제 조회한 제목</td>
+            <td>${b.boardTitle}</td>
         </tr>
         <tr>
             <td>작성자</td>
-            <td>user01</td>
-        </tr>
-        <tr>
-            <td>조회수</td>
-            <td>13</td>
+            <td>${b.boardWriter}</td>
         </tr>
         <tr>
             <td>작성일</td>
-            <td>12</td>
+            <td>${b.createDate}</td>
         </tr>
         <tr>
             <td>내용</td>
-            <td height="100">여기가 내용자리임</td>
+            <td>${b.boardContent}</td>
         </tr>
+        <tr>
+            <td>조회수</td>
+            <td>${b.count}</td>
+        </tr>
+
     </table>
 
     <br>
@@ -60,24 +53,32 @@
     <tr>
         <td width="100" class="align-middle">댓글작성</td>
         <td width="400"><textarea class="form-control"></textarea></td>
-        <td width="100" class="align-middle" style="text-align : center"><button class="btn btn-primary mb-3" style="width : 100%; height: 60px;">등록</button></td>
+        <td width="100" class="align-middle" style="text-align : center"><button class="btn btn-primary mb-3" style="width : 80%; height: 60px;">등록</button></td>
     </tr>
     <tr>
-        <td colspan="3"><b>댓글(2)</b></td>
+        <td colspan="3"><b>댓글(${ list.size() })</b></td>
+        					<!--  또는 fn:length(list) -->
     </tr>
     <tr>
         <th>이름</th>
         <th>내용</th>
         <th>작성일</th>
     </tr>
+
+    <c:forEach var="c" items="${ list }">
     <tr>
-        <td>admin</td>
-        <td>댓글입니다.</td>
-        <td>2023-05-02</td>
+        <td>${c.replyWriter}</td>
+        <td>${c.replyContent}</td>
+        <td>${c.createDate}</td>
     </tr>
+    </c:forEach>
 
     </table>
     </div>
+
+    <br><br>
+    <div align="center">
+        <button class="btn btn-primary mb-3" onclick="location.href='list.bo'">목록</button>
     
 </body>
 </html>

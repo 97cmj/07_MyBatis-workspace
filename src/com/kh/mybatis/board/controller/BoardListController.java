@@ -25,20 +25,31 @@ public class BoardListController extends HttpServlet {
 			throws ServletException, IOException {
 
 		// --페이징 처리 --
+		int currentPage = 0;
 		int listCount = new BoardServiceImpl().selectListCount();
-		int currentPage = request.getParameter("currentPage") != null ? Integer.parseInt(request.getParameter("currentPage")) : 1;
+
+		try {
+
+			currentPage = request.getParameter("currentPage") != null
+					? Integer.parseInt(request.getParameter("currentPage"))
+					: 1;
+
+		} catch (NumberFormatException e) {
+			currentPage = 1;
+		}
+
 		int pageLimit = 10;
 		int boardLimit = 5;
-		
+
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
-		
 		ArrayList<Board> list = new BoardServiceImpl().selectList(pi);
-		
+
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 
 		request.getRequestDispatcher("WEB-INF/views/board/boardListView.jsp").forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

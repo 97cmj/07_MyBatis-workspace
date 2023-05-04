@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="../common/common.jsp" %>
 </head>
 <body>
 	 <jsp:include page="menubar.jsp" />

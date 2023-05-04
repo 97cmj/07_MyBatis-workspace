@@ -30,6 +30,11 @@
     <!-- <typeAlias type="com.kh.board.model.vo.*" alias="board"/> -->
     <typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="member"/>
     <typeAlias type="com.kh.mybatis.board.model.vo.Board" alias="board"/>
+    <typeAlias type="com.kh.mybatis.board.model.vo.Reply" alias="reply"/>
+    
+    
+    
+    
   </typeAliases>
 
 

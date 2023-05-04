@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="common/common.jsp" %>
 </head>
 <body>
 	<!-- menubar.jsp 를 include 시키기 -->

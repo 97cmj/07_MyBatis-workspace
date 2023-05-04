@@ -23,8 +23,6 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
-
 		// 1. 요청 받은 id, pw 값 저장
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");

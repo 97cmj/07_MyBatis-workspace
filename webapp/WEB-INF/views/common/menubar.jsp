@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
+
 <style>
 .login-area a {
 	text-decoration: none;
@@ -42,6 +42,17 @@
 	cursor: pointer;
 }
 
+.login-btn {
+	background-color: rgb(11,96,219);
+	color : white;
+	border : 1px solid rgb(11,96,219);
+	border-radius : 8px;
+}
+
+.login-btn:hover {
+	background-color : rgb(11,94,200);
+}
+
 /* menubar.jsp 에 .outer 에 한번만 적용하고 다 include 해서 쓸 것 */
 .outer {
 	width: 900px;
@@ -51,6 +62,9 @@
 	margin-top: 50px;
 }
 </style>
+
+</head>
+
 <body>
 
 	<h1 align="center">안녕 내 이름은 마이바티스</h1>
@@ -67,7 +81,7 @@
 							<td><input type="text" name="userId"
 								placeholder="아이디를 입력하세요." required></td>
 							<td rowspan="2">
-								<button type="submit" style="height: 50px;">로그인</button>
+								<button class="login-btn" type="submit" style="height: 50px;">로그인</button>
 							</td>
 						</tr>
 						<tr>
@@ -93,7 +107,7 @@
 				<table>
 					<tr>
 						<td colspan="2">
-							<h3>${ loginUser.userName }님 환영합니다.</h3>
+							<h5>${ loginUser.userName }님 환영합니다.</h5>
 						</td>
 					</tr>
 					<tr>
@@ -110,7 +124,7 @@
 	<br>
 
 	<div class="nav-area" align="center">
-		<div class="menu">HOME</div>
+		<div class="menu" onclick="location.href='/mybatis';">HOME</div>
 		<div class="menu">공지사항</div>
 		<div class="menu" onclick="location.href='list.bo?currentPage=1';">게시판</div>
 		<div class="menu">ETC</div>
